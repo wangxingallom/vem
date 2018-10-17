@@ -12,14 +12,13 @@ from mpl_toolkits.mplot3d import Axes3D
 from fealpy.functionspace.lagrange_fem_space import LagrangeFiniteElementSpace
 
 
-
 maxit = 3
 pde = CosCosData()
 h = 0.1
 n = 4
 tmesh = unitcircledomainmesh(h, meshtype='tri')
 pmesh = tri_to_polygonmesh(tmesh, n) 
-errorMatrix = np.zeros((8, maxit), dtype=np.float)
+errorMatrix = np.zeros((10, maxit), dtype=np.float)
 Ndof = np.zeros((maxit,), dtype=np.int)
 for i in range(maxit):
     fem = PoissonFEMModel(pde, tmesh, 1, tmesh.integrator(5))
@@ -46,6 +45,14 @@ for i in range(maxit):
 
     errorMatrix[6, i] = np.max(np.abs(uI - u1)) 
     errorMatrix[7, i] = np.max(np.abs(uI - u2)) 
+
+    b = np.array([1/3, 1/3, 1/3])
+    bc = tmesh.entity_barycenter('cell')
+
+    uc = fem.pde.solution(bc)
+    errorMatrix[8, i] = np.max(np.abs(uc - u1.value(b))) 
+    errorMatrix[9, i] = np.max(np.abs(uc - u2.value(b))) 
+    
     
     if i < maxit -1:
         h /= 2
@@ -53,4 +60,10 @@ for i in range(maxit):
         pmesh = tri_to_polygonmesh(tmesh, n) 
 
 print(errorMatrix)
+
+fig = plt.figure()
+axes = fig.gca()
+pmesh.add_plot(axes)
+tmesh.add_plot(axes)
+plt.show()
 
