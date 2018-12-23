@@ -411,17 +411,17 @@
     
     该系统的哈密顿量是\\
     \begin{equation}
-    H[w_+,w_-]=\frac{1}{|S|}\int dx\left\lbrace -w_+(x)+\frac{w_{-}^2(x)}{\chi N}\right\rbrace -\log Q[w_+(x),w_-(x)]	
+    H[\omega_+,\omega_-]=\frac{1}{|S|}\int dx\left\lbrace -\omega_+(x)+\frac{\omega_{-}^2(x)}{\chi N}\right\rbrace -\log Q[\omega_+(x),\omega_-(x)]	
     \end{equation}
     
     
-    其中$w_+(x)$和$w_-(x)$是对应的系统的压力和对应交换化学势，$x$表示平面上的点.\\
+    其中$\omega_+(x)$和$\omega_-(x)$是对应的系统的压力和对应交换化学势，$x$表示平面上的点.\\
     
     自由能函数关于场的一阶变分推导出下面的自洽场方程\\
 
   \begin{gather}
-    \frac{\delta H}{\delta w_+(x)}=\phi _A(x)+\phi _B(x)-1=0 \\   
-    \frac{\delta H}{\delta w_-(x)}=\frac{2w_-(x)}{\chi N}-[\phi _A(x)-\phi _B(x)]=0
+    \frac{\delta H}{\delta \omega_+(x)}=\phi _A(x)+\phi _B(x)-1=0 \\   
+    \frac{\delta H}{\delta \omega_-(x)}=\frac{2\omega_-(x)}{\chi N}-[\phi _A(x)-\phi _B(x)]=0
    \end{gather}
    其中$\phi _A(x)$和$\phi _B(x)$是单体$A$和单体$B$的密度.再通过使用连续的高链模型，我们可以完成$SCFT$系统. 
   \begin{gather}
@@ -435,13 +435,13 @@
     由柔性高斯链模型，得到正向传播子$q(x,s)$满足下面修正扩散方程\\
     
     \begin{gather}
-    \frac{\partial}{\partial s}q(x,s)=\Delta q(x,s)-w(x,s)q(x,s),\qquad q(x,0)=1   
+    \frac{\partial}{\partial s}q(x,s)=\Delta q(x,s)-\omega(x,s)q(x,s),\qquad q(x,0)=1   
     \end{gather} 
       
     \begin{equation}\label{eq:dirichlet}
-    w(x,s)=\begin{cases}
-    w_+(x)-w_-(x),\qquad 0\leq s \leq f.\\
-    w_+(x)+w_-(x),\qquad 1-f\leq s \leq 1 
+    \omega(x,s)=\begin{cases}
+    \omega_+(x)-\omega_-(x),\qquad 0\leq s \leq f.\\
+    \omega_+(x)+\omega_-(x),\qquad 1-f\leq s \leq 1 
     \end{cases}
     \end{equation}
     
@@ -449,11 +449,11 @@
     反向传播算子$q^{+}(x,s)$是由$s=1$到$s=0$的概率权重来表示.\\
     
    \begin{gather} 
-   \frac{\partial}{\partial s}q^{+}(x,s)=\Delta q^{+}(x,s)-w^{+}(x,s)q^{+}(x,s),\qquad q^{+}(x,0)=1 \end{gather}
+   \frac{\partial}{\partial s}q^{+}(x,s)=\Delta q^{+}(x,s)-\omega^{+}(x,s)q^{+}(x,s),\qquad q^{+}(x,0)=1 \end{gather}
     \begin{equation}\label{eq:dirichlet}
-    w^{+}(x,s)=\begin{cases}
-    w_+(x)+w_-(x),\qquad 0\leq s \leq 1-f.\\
-    w_+(x)-w_-(x),\qquad 1-f\leq s \leq 1 
+    \omega^{+}(x,s)=\begin{cases}
+    \omega_+(x)+\omega_-(x),\qquad 0\leq s \leq 1-f.\\
+    \omega_+(x)-_\omega-(x),\qquad  Q=\frac{1}{|S|}\int dx q(x,1)=\frac{1}{|S|}\int dx q(x,s)q^{+}(x,1-s)\qquad 1-f\leq s \leq 1 
     \end{cases}
     \end{equation}
     \subsubsection{数值方法}
@@ -461,12 +461,23 @@
          在此采用梯度下降法达到鞍点:\\
          
     \begin{gather}    
-    \frac{\partial}{\partial t}w_+(x,t)=\frac{\delta H[W_+,W_-]}{\delta w_+(x,t)}\\
-    \frac{\partial}{\partial t}w_-(x,t)=-\frac{\delta H[W_+,W_-]}{\delta w_-(x,t)}    
+    \frac{\partial}{\partial s}\omega_+(x,s)=\frac{\delta H[\omega_+,\omega_-]}{\delta \omega_+(x,s)}\\
+    \frac{\partial}{\partial s}\omega_-(x,s)=-\frac{\delta H[\omega_+,\omega_-]}{\delta \omega_-(x,s)}    
     \end{gather}
     
     
-    通过下面的迭代方法寻找SCFT的鞍点并更新$w_{\pm}(x)$.\\
+    通过下面的迭代方法寻找SCFT的鞍点并更新$\omega_{\pm}(x)$.\\
+    
+    
+    step1 给定初始估计的场$\omega_{\pm}(x,0)$.\\
+    
+    step2 计算平面上的向前(向后)传播算子$q(x,s)$和$q^+(x,s)$.\\
+    
+    step3 通过上述方程得到$Q$,\,$\phi_A(x)$和$\phi_B(x)$,并计算哈密顿量$H$.\\
+    
+    step4 对方程使用迭代方法更新场$\omega_+(x)$和$\omega_-(x)$.\\
+    
+    step5 重复步骤2-4,直到达到收敛标准.\\
     
   ....\\
     \section{VEM的收敛}
@@ -480,7 +491,203 @@
     
     3. 密度函数$\phi$ \\
     
-    过程中所遇到的困难:\\
+    \subsection{谱方法spectrum method求解SCFT模型}
+    
+    \qquad SM方法是解偏微分方程的一种数值方法.其要点是把解近似地展开成光滑函数(一般是正交多项式)的有限级数展开式,即所谓解的近似谱展开式,再根据此展开式和原方程,求出展开式系数的方程组.一般多取切比雪夫多项式和勒让德多项式作为近似展开式的基函数.对于周期性边界条件,用傅里叶级数和面调和级数比较方便.谱方法的精度,直接取决于级数展开式的项数.\\
+    
+    谱方法和有限元方法密切相关, 建立在相同的思想基础上;它们之间的主要区别是, 谱方法在整个域中使用非零的基函数, 而有限元方法只在局部单元上使用非零的基函数。换句话说, 谱方法采用全局方法, 而有限元方法采用局部方法.由于这个原因, 谱方法具有很好的误差.\\
+    
+    在这里我们讨论一下MATLAB中FFT和IFFT与DFT的对应关系.\\
+    
+    首先给出:\\
+    
+    DFT(离散傅里叶变换):\\
+    
+   $$ \hat{u}=\dfrac{1}{Nc_{k}}\sum_{j=0}^{N-1}u(x_j)e^{-ikx_j},\quad k=-N/2,\dots,N/2$$
+   
+   这里当$|k|< N/2$时$c_k=1$,当$k=\pm N/2$时$c_k=2$,N为偶数.\\
+   
+    逆离散变换:\\
+  
+  $$u(x_j)=\sum_{k=-N/2}^{N/2} \hat{u_k}e^{ikx_j},\quad j=0,1,\dots N$$
+  
+  在$\{x_k=2\pi k /N\}_{k=0}^{N-1}$给出$\{v(j)=u(x_{j-1})\}_{j=1}^{N}$\\
+  
+ 由MATLAB命令$ \hat{v}=fft(v)$得到$\{\hat{v}(k)\}_{k=1}^N$通过\\
+ 
+ $$\hat{v}(k)=\sum_{j=1}^{N}v(j)e^{-2\pi i(j-1)(k-1)/N},\quad 1\leq k \leq N$$
+ 
+ iFFT可以通过Matlab命令$v=ifft(\hat  {v})$得到,返回$\{v(j)\}_{j=1}^N$通过\\
+ 
+ $$v(j)=\dfrac{1}{N}\sum_{k=1}^{N}\hat{v}(k)e^{2\pi i(j-1(k-1)/N}, \quad 1\leq j\leq N$$
+ 
+ 令\\
+ 
+ $$u(x_j)=v(j+1),\quad x_j=\dfrac{2\pi j}{N},\quad 0\leq j \leq N-1$$
+ 
+ 我们发现\\
+ 
+ $$ \hat{u}_k=\dfrac{1}{N}\hat{v}(k+1), \quad 0\leq k \leq \dfrac{N}{2}-1$$
+ 
+ $$ \hat{u}_k=\dfrac{1}{N}\hat{v}(k+N+1), \quad -\dfrac{N}{2}+1\leq k \leq-1$$
+ $$ \hat{u}_{-N/2}=\hat{u}_{N/2} = \dfrac{1}{2N}\hat{v}(N/2+1)$$
+ 
+ 整理得到下表:\\
+ 
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ccccccccccc}
+		
+		\toprule
+		j&1& 2  &$\dots$&N/2-1&N/2&N/2+1&N/2+2&$\dots$&N-1&N\\
+		\midrule    
+       $u=v$&$u_0$&$u_1$&$\dots$&$\dots$&$\dots$&$\dots$&$\dots$&$\dots$&$u_{N-2}$&$u_{N-1}$\\
+       $\hat{u}=\hat{v}/N$&$\hat{u}_0$&$\hat{u}_1$&$\dots$&$\hat{u}_{N/2-2}$&$2\hat{u}_{N/2-1}$&$\hat{u}_{N/2}$&$\hat{u}_{-N/2+1}$&$\dots$&$\hat{u}_{-2}$&$\hat{u}_{-1}$\\
+       k&0&1&$\dots$&N/2-2&N/2-1&-N/2&-N/2+1&$\dots$&-2&-1\\
+		\bottomrule
+	\end{tabular}
+\end{table} 
+
+表中最后一行为FFT中\textbf{k}的取值.\\
+	 
+
+    谱方法的思路:对PDE方程进行FFT变换,得到只对时间微分的常微分方程组.然后,利用时间离散来解ODE方程组.\\
+    
+    算子分裂法:解微分方程的一种数值方法.在一个时间步长里，将原始方程分离成两部分来分别求解，然后将两部分的解合并形成原方程的解.\\
+    
+    具体求解过程:\\
+    
+    周期边界条件\\
+   
+    空间:谱方法\\
+  
+    时间：算子分裂法 \\
+    
+    1.给出初值$\omega_-(x)$.\\
+    
+    2.求解$q(x,s)$和$q^+(x,s)$\\
+     \begin{gather}
+    \frac{\partial}{\partial s}q(x,s)=\Delta q(x,s)-\omega(x,s)q(x,s)  :=\mathcal{L}_1(q)+ \mathcal{L}_2(q) 
+    \end{gather}
+    \textbf{step1}:(半步，即时间$s=\dfrac{\tau}{2}$)$\tau$为时间步长.\\
+    
+    求解$$\frac{\partial}{\partial s}q(x,s)=\Delta q(x,s):=\mathcal{L}_1(q)$$\\
+    
+    
+     利用傅里叶变换有: $$q(x,s)= \sum_{k} \hat{q}(k,s)e^{ikx}$$\\
+     
+     $$\frac{\partial}{\partial s} \sum_{k}\hat{q}(k,s)e^{ikx} =\Delta\sum_{k}\hat{q} (k,s)e^{ikx}=\sum_{k}-k^2\hat{q}(k,s)e^{ikx}$$\\
+     
+     两边同时与$e^{-ijx}$做内积，当$j=k$时，$\langle e^{-ikx},e^{-ijx}\rangle=1$;当$j \neq k$时，$\langle e^{-ikx},e^{-ijx}\rangle=0.$\\
+     
+     故化简方程为:\\
+     $$\frac{d\hat{q}(k,s)}{ds} = -k^2\hat{q}(k,s)$$
+     $$ \frac{d\hat{q}(k,s)}{\hat{q}(k,s)} = -k^2ds $$
+     $$\hat{q}(k,s)=e^{-k^2s+c}=e^{-k^2s}e^{c} $$
+     
+     当$s=0$时，$\hat{q}(k,0)= e^{c} $\\
+     
+     故:
+     $$\hat{q}(k,s)=e^{-k^2s}\hat{q}(k,0)$$
+     \textbf{step2}:(一步，即时间$s=\tau$)\\
+     
+     求解$$\frac{\partial}{\partial s}q(x,s)=-\omega(x,s)q(x,s)  :=\mathcal{L}_2(q)$$
+     $$\dfrac{q(x,s)}{ds}=-\omega(x,s)q(x,s)$$
+     $$\dfrac{q(x,s)}{q(x,s)}=-\omega(x,s)ds$$
+     $$q(x,s)=e^{-\omega(x,s)s}e^c$$
+     当$s=0$时，$q(x,0)= e^{c} $\\
+     故:
+     $$q(x,s)=e^{-\omega(x,s)s}q(x,0)$$
+     
+     注:这里的$q(x,0)$为\textbf{step1}最终得到的$q(x,s)$.\\ 
+     \textbf{step3}:(半步)重复第一步\\
+     
+      注:这里的$q(x,0)$为\textbf{step2}最终得到的$q(x,s)$.\\
+      
+    \textbf{step1}--复\\
+    
+    \textbf{step2}--实\\
+    
+    \textbf{step3}--复\\
+     
+     同理求得$q^+(x,s)$.\\
+     
+     3.计算Q和$\phi_A$和$\phi_B$\\
+     
+      $$Q=\frac{1}{|S|}\int dx q(x,s)q^{+}(x,1-s)
+      \overset{s=1}{=}\frac{1}{|S|}\int dx q(x,1)$$
+      
+      $$\int q(x,1) dx=\int\sum_{k}\hat{q}(k,1)e^{-ikx}dx=\sum_{k}\hat{q}(k,1)\int e^{-ikx}e^{-i0x}dx=\hat{q}(0,1)$$
+      
+      
+     得到:$Q=\hat{q}(0,1)$\\
+     
+      $$\phi _A(x)=\frac{1}{Q}\int_0^f ds q(x,s)q^{+}(x,1-s)$$
+      $$\phi _B(x)=\frac{1}{Q}\int_f^1 ds q(x,s)q^{+}(x,1-s)$$
+      
+      采用四阶离散格式:\\
+      
+      $$\int_{0}^{n_s}=\tau \{-\frac{5}{8}(f_0+f_{n_s})+\frac{1}{6}(f_1+f_{n_s-1})-\frac{1}{24}(f_2+f_{n_s-2})+\sum_{j=0}^{n_s}f_j\}$$
+      
+     可得$\phi_A$和$\phi_B$.\\
+     
+     4.更新场函数\\
+     
+     \begin{gather}    
+     \frac{\partial}{\partial s}\omega_+(x,s)=\frac{\delta H[\omega_+,\omega_-]}{\delta \omega_+(x,s)}=\phi _A(x)+\phi _B(x)-1\\
+     \frac{\partial}{\partial s}\omega_-(x,s)=-\frac{\delta H[\omega_+,\omega_-]}{\delta \omega_-(x,s)}=\phi _A(x)-\phi _B(x)-\frac{2\omega_-(x,s)}{\chi N} 
+     \end{gather}
+     用向前欧拉迭代:\\
+     
+     $$\frac{\partial}{\partial s}\omega_+(x,s^n)=\dfrac{\omega_+(x,s^{n+1})-\omega_+(x,s^{n})}{\Delta s}$$
+     故$\omega_+(x,s)$迭代公式为:\\
+     $$\omega_+(x,s^{n+1})=\omega_+(x,s^n)+\Delta s[{\phi _A}^n(x)+{\phi _B}^n(x)-1]$$
+     
+     同理:\\
+     
+     $\omega_-(x,s)$迭代公式为:\\
+     $$\omega_-(x,s^{n+1}=\omega_-(x,s^n)+\Delta s[{\phi _A}^n(x)-{\phi _B}^n(x)-\frac{2\omega_-(x,s^n)}{\chi N}]$$
+     5.重复迭代，直到达到收敛标准$1.0e-6$,得到结果.\\
+     
+    当N=8,即空间剖分为8*8网格时，$\phi$ 的值为:
+    \begin{table}[H]
+    	\centering
+    	\begin{tabular}{ccccccccc}
+    		
+    		\toprule
+    		N&1& 2  &3&4&5&6&7&8\\
+    		\midrule    
+    		1&0.1947&	0.2062&	0.1937&	0.2057&	0.1951&	0.2040&	0.1964&	0.2040\\
+    		2&0.2021&	0.1970&	0.2029&	0.1974&	0.2018&	0.1988&	0.2007&	0.1988\\
+    		3&0.1993&	0.2011&	0.1988&	0.2008&	0.1996&	0.1998&	0.2005&	0.1997\\
+    		4&0.2018&	0.1976&	0.2023&	0.1979&	0.2016&	0.1988&	0.2007&	0.1989\\
+    		5&0.1981&	0.2023&	0.1976&	0.2020&	0.1983&	0.2011&	0.1991&	0.2010\\
+    		6&0.2006&	0.1988&	0.2011&	0.1991&	0.2003&	0.2002&	0.1994&	0.2002\\
+    		7&0.1974&	0.2031&	0.1967 &	0.2027&	0.1978&	0.2014&	0.1989&	0.2014\\
+    		8&0.2054&	0.1937&	0.2063&	0.1941&	0.2049&	0.1959&	0.2036&	0.1958\\
+    		\bottomrule
+    	\end{tabular}
+    \end{table} 
+    当N=128,即空间剖分为128*128网格时，相结构为:\\
+    \begin{figure}[H] 
+    	\centering
+    	\includegraphics[width=10cm]{p.png}
+    \end{figure}
+    相同网格下，VEM得到的结果为:\\
+    \begin{figure}[H] 
+    	\centering
+    	\includegraphics[width=10cm]{scftfigure5770.png}
+    \end{figure}         
+     
+     
+     
+     
+     
+    
+    
+    
+    
+    \subsection{过程中所遇到的困难}
     
     校验谱方法数值解的正确，如下:\\
     
@@ -533,13 +740,15 @@
 $dt=0.005$\\             
  \begin{table}[H]
  	\centering
- 	\begin{tabular}{ccc}
+ 	\begin{tabular}{cccccc}
  		
  		\toprule
- 		&谱方法 & VEM  \\
+ 	 &  \multicolumn{4}{c}{VEM}	&\multirow{3}*{谱方法} \\
+ 		\cmidrule(lr){2-5}
+ 		&  N=64& N=128&N=150&N=200\\
  		\midrule    
- 		Q&397.473100      &375.240925\\
- 		H&-2.377445&-2.377752\\
+ 		Q&293.600689&375.240925&382.029489&390.319270&397.473100\\
+ 		H&-2.364668&-2.377752&-2.378390&-2.379013&-2.377445\\
  		\bottomrule
  	\end{tabular}
  \end{table} 
@@ -807,7 +1016,204 @@ $dt=0.005$\\
     		\includegraphics[width=5.2cm]{scftfigure260.png}
     		\caption*{层状相}
     	\end{minipage}
-    \end{figure}    
+    \end{figure} 
+
+
+   \section{多边形结构数值模拟}
+
+
+节点$x=(x,y)$\\
+
+六状相\\
+
+初值:\\
+
+$ \mu_+=0 $\\
+
+$ \mu_-=\cos^{2}x+\cos^2 (\frac{x}{2}+\frac{\sqrt{3}y}{2})+\cos^2(-\frac{x}{2}+\frac{\sqrt{3}y}{2})+\cos^{2}(-x)+\cos^2 (-\frac{x}{2}-\frac{\sqrt{3}y}{2})+\cos^2 (\frac{x}{2}-\frac{\sqrt{3}y}{2})$\\
+
+参数:\\
+
+$f_A=0.2,\chi_N=25,tol=1.0e-6$\\
+
+层状相\\
+
+初值:\\
+
+$ \mu_+=0 $\\
+
+$ \mu_-=sin(4*x)$\\
+
+参数:\\
+
+$f_A=0.5,\chi_N=15,tol=1.0e-6$\\ 
+
+\subsection{花瓣型区域}   
+\begin{table}[H]
+	\centering
+	\begin{tabular}{cccc}
+		\toprule
+		区域$D/cm^2$ &	迭代步数 & Q &  H \\
+		\midrule
+		20*20(六状)&626& 3.490319185439354e+02 & -2.375424510474807e+00\\
+		20*20(层状)&1395 &2.753715279880133e+01 &-1.793820469496744e+00\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+	% 调整字体和图片间距;
+	\setlength{\abovecaptionskip}{0.cm}
+	\setlength{\belowcaptionskip}{-0.cm}
+	% 插入子图;
+	\begin{minipage}[!htbp]{0.3\linewidth}
+		\includegraphics[width=5.2cm]{Figure_huaban.png}
+		\caption*{网格结构}
+	\end{minipage}
+	\hspace{0.23in}
+	\begin{minipage}[!htbp]{0.3\linewidth}
+		\includegraphics[width=5.2cm]{scftfigure626.png}
+		\caption*{六状相}
+	\end{minipage}
+	\hspace{0.23in}
+	\begin{minipage}[!htbp]{0.3\linewidth}
+		\includegraphics[width=5.2cm]{scftfigure1394.png}
+		\caption*{层状相}
+	\end{minipage}
+\end{figure} 
+
+\subsection{L型区域}   
+\begin{table}[H]
+	\centering
+	\begin{tabular}{cccc}
+		\toprule
+		区域$D/cm^2$ &	迭代步数 & Q &  H \\
+		\midrule
+		20*20(六状)&313 &3.489595347550497e+02 &-2.376593651193064e+00\\
+		20*20(层状)&1004 &7.199195813427511e+00 &-1.738203246649924e+00\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+	% 调整字体和图片间距;
+	\setlength{\abovecaptionskip}{0.cm}
+	\setlength{\belowcaptionskip}{-0.cm}
+	% 插入子图;
+	\begin{minipage}[!htbp]{0.3\linewidth}
+		\includegraphics[width=5.2cm]{Figure_L.png}
+		\caption*{网格结构}
+	\end{minipage}
+	\hspace{0.23in}
+	\begin{minipage}[!htbp]{0.3\linewidth}
+		\includegraphics[width=5.2cm]{scftfigure312.png}
+		\caption*{六状相}
+	\end{minipage}
+	\hspace{0.23in}
+	\begin{minipage}[!htbp]{0.3\linewidth}
+		\includegraphics[width=5.2cm]{scftfigure1004.png}
+		\caption*{层状相}
+	\end{minipage}
+\end{figure}
+\subsection{不规则区域}   
+\begin{table}[H]
+	\centering
+	\begin{tabular}{cccc}
+		\toprule
+		区域$D/cm^2$ &	迭代步数 & Q &  H \\
+		\midrule
+		30*22.5(六状)&340& 3.215353270178076e+02 & -2.093863264593966e+00\\
+		30*22.5(层状)&730 &1.461127582677257e+01 & -1.649744476246860e+00\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+	% 调整字体和图片间距;
+	\setlength{\abovecaptionskip}{0.cm}
+	\setlength{\belowcaptionskip}{-0.cm}
+	% 插入子图;
+	\begin{minipage}[!htbp]{0.3\linewidth}
+		\includegraphics[width=5.2cm]{Figure_buming.png}
+		\caption*{网格结构}
+	\end{minipage}
+	\hspace{0.23in}
+	\begin{minipage}[!htbp]{0.3\linewidth}
+		\includegraphics[width=5.2cm]{scftfigure340.png}
+		\caption*{六状相}
+	\end{minipage}
+	\hspace{0.23in}
+	\begin{minipage}[!htbp]{0.3\linewidth}
+		\includegraphics[width=5.2cm]{scftfigure730.png}
+		\caption*{层状相}
+	\end{minipage}
+\end{figure}
+\subsection{凹型区域}   
+\begin{table}[H]
+	\centering
+	\begin{tabular}{cccc}
+		\toprule
+		区域$D/cm^2$ &	迭代步数 & Q &  H \\
+		\midrule
+		40*24(六状)&770& 2.937431431771336e+02 & -2.371863745147272e+00\\
+		40*24(层状)&1163& 2.743809265296202e+00& -1.688270323744312e+00\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+	% 调整字体和图片间距;
+	\setlength{\abovecaptionskip}{0.cm}
+	\setlength{\belowcaptionskip}{-0.cm}
+	% 插入子图;
+	\begin{minipage}[!htbp]{0.3\linewidth}
+		\includegraphics[width=5.2cm]{Figure_ao.png}
+		\caption*{网格结构}
+	\end{minipage}
+	\hspace{0.23in}
+	\begin{minipage}[!htbp]{0.3\linewidth}
+		\includegraphics[width=5.2cm]{scftfigure770.png}
+		\caption*{六状相}
+	\end{minipage}
+	\hspace{0.23in}
+	\begin{minipage}[!htbp]{0.3\linewidth}
+		\includegraphics[width=5.2cm]{scftfigure1162.png}
+		\caption*{层状相}
+	\end{minipage}
+\end{figure} 
+\subsection{机翼型区域}   
+\begin{table}[H]
+	\centering
+	\begin{tabular}{cccc}
+		\toprule
+		区域$D/cm^2$ &	迭代步数 & Q &  H \\
+		\midrule
+		70*7(六状)&484 &2.948668823497224e+02 & -2.362323363741924e+00\\
+		70*7(层状)&1502& 2.403979241983159e-05 & -1.734805119606069e+00\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+	% 调整字体和图片间距;
+	\setlength{\abovecaptionskip}{0.cm}
+	\setlength{\belowcaptionskip}{-0.cm}
+	% 插入子图;
+	\begin{minipage}[!htbp]{0.3\linewidth}
+		\includegraphics[width=5.2cm]{Figure_air.png}
+		\caption*{网格结构}
+	\end{minipage}
+	\hspace{0.23in}
+	\begin{minipage}[!htbp]{0.3\linewidth}
+		\includegraphics[width=5.2cm]{scftfigure484.png}
+		\caption*{六状相}
+	\end{minipage}
+	\hspace{0.23in}
+	\begin{minipage}[!htbp]{0.3\linewidth}
+		\includegraphics[width=5.2cm]{scftfigure1502.png}
+		\caption*{层状相}
+	\end{minipage}
+\end{figure}    
     
 \end{CJK}
 \end{document}
