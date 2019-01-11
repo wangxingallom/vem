@@ -480,6 +480,35 @@
     step5 重复步骤2-4,直到达到收敛标准.\\
     
   ....\\
+  \subsubsection{虚单元求解自洽场模型}
+  
+  主要用虚单元法求解传播子方程\\
+  \begin{gather}
+  \frac{\partial}{\partial s}q(x,s)=\Delta q(x,s)-\omega(x,s)q(x,s),\qquad q(x,0)=1   
+  \end{gather} 
+  
+  下面用 \.{q}(x,s)表示 $\frac{\partial}{\partial s}q(x,s)$\\
+  
+  上式为:\\
+\begin{gather}
+ \.{q}(x,s) -\Delta q(x,s)-\omega(x,s)q(x,s)=0
+\end{gather}
+\begin{gather}
+\int\.{q}(x,s)v -\int\Delta q(x,s)v-\int\omega(x,s)q(x,s)v = 0
+\end{gather}
+\begin{gather}
+\int\.{q}(x,s)v -\nabla q(x,s) v|_{\partial \Omega}+\int \nabla q(x,s)\nabla v-\int\omega(x,s)q(x,s)v = 0
+\end{gather}
+
+
+
+
+  
+  
+  
+  
+  
+  
     \section{VEM的收敛}
     以谱方法求取的数值解为真解，研究虚单元方法求得的数值解的收敛情况\\
     

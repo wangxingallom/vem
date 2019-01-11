@@ -1,0 +1,2 @@
+   6.654630e-02if system_dependent('IsDebugMode')==1, dbquit; end
+flexible
