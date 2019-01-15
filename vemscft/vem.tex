@@ -64,10 +64,10 @@
      \end{equation}
      
      其中
-     \begin{gather}
+     \begin{equation}
      H_{g_D}^{1}=\{u \in H^1(\Omega)\text{且}u|_{ \partial \Omega} = g_D\}\\
      H_{0}^{1}=\{v \in H^1(\Omega)\text{且}u|_{ \partial \Omega} =0\}
-     \end{gather}
+     \end{equation}
      
       \subsubsection{二维局部虚单元空间 $\mathcal V_k(E)$}
      \begin{table}[H]
@@ -419,24 +419,24 @@
     
     自由能函数关于场的一阶变分推导出下面的自洽场方程\\
 
-  \begin{gather}
+  \begin{equation}
     \frac{\delta H}{\delta \omega_+(x)}=\phi _A(x)+\phi _B(x)-1=0 \\   
     \frac{\delta H}{\delta \omega_-(x)}=\frac{2\omega_-(x)}{\chi N}-[\phi _A(x)-\phi _B(x)]=0
-   \end{gather}
+   \end{equation}
    其中$\phi _A(x)$和$\phi _B(x)$是单体$A$和单体$B$的密度.再通过使用连续的高链模型，我们可以完成$SCFT$系统. 
-  \begin{gather}
+  \begin{equation}
     Q=\frac{1}{|S|}\int dx q(x,1)=\frac{1}{|S|}\int dx q(x,s)q^{+}(x,1-s),\qquad \forall s \in[0,1]  \\
    \phi _A(x)=\frac{1}{Q}\int_0^f ds q(x,s)q^{+}(x,1-s)\\
    \phi _B(x)=\frac{1}{Q}\int_f^1 ds q(x,s)q^{+}(x,1-s)
-    \end{gather}
+    \end{equation}
     
     在系统中，正向传播子$q(x,s)$表示长度为$s$的链在平面位置$x$处概率权重，其中变量$s$用于参数化每条共聚物链，$s=0$表示单体$A$的起始位置，$s=f$是单体$A$和单体$B$之间的连接点.\\
     
     由柔性高斯链模型，得到正向传播子$q(x,s)$满足下面修正扩散方程\\
     
-    \begin{gather}
+    \begin{equation}
     \frac{\partial}{\partial s}q(x,s)=\Delta q(x,s)-\omega(x,s)q(x,s),\qquad q(x,0)=1   
-    \end{gather} 
+    \end{equation} 
       
     \begin{equation}\label{eq:dirichlet}
     \omega(x,s)=\begin{cases}
@@ -448,8 +448,8 @@
 
     反向传播算子$q^{+}(x,s)$是由$s=1$到$s=0$的概率权重来表示.\\
     
-   \begin{gather} 
-   \frac{\partial}{\partial s}q^{+}(x,s)=\Delta q^{+}(x,s)-\omega^{+}(x,s)q^{+}(x,s),\qquad q^{+}(x,0)=1 \end{gather}
+   \begin{equation} 
+   \frac{\partial}{\partial s}q^{+}(x,s)=\Delta q^{+}(x,s)-\omega^{+}(x,s)q^{+}(x,s),\qquad q^{+}(x,0)=1 \end{equation}
     \begin{equation}\label{eq:dirichlet}
     \omega^{+}(x,s)=\begin{cases}
     \omega_+(x)+\omega_-(x),\qquad 0\leq s \leq 1-f.\\
@@ -460,10 +460,10 @@
     
          在此采用梯度下降法达到鞍点:\\
          
-    \begin{gather}    
+    \begin{equation}    
     \frac{\partial}{\partial s}\omega_+(x,s)=\frac{\delta H[\omega_+,\omega_-]}{\delta \omega_+(x,s)}\\
     \frac{\partial}{\partial s}\omega_-(x,s)=-\frac{\delta H[\omega_+,\omega_-]}{\delta \omega_-(x,s)}    
-    \end{gather}
+    \end{equation}
     
     
     通过下面的迭代方法寻找SCFT的鞍点并更新$\omega_{\pm}(x)$.\\
@@ -483,32 +483,56 @@
   \subsubsection{虚单元求解自洽场模型}
   
   主要用虚单元法求解传播子方程\\
-  \begin{gather}
+  \begin{equation}
   \frac{\partial}{\partial s}q(x,s)=\Delta q(x,s)-\omega(x,s)q(x,s),\qquad q(x,0)=1   
-  \end{gather} 
+  \end{equation} 
   
   下面用 \.{q}(x,s)表示 $\frac{\partial}{\partial s}q(x,s)$\\
   
   上式为:\\
-\begin{gather}
- \.{q}(x,s) -\Delta q(x,s)-\omega(x,s)q(x,s)=0
-\end{gather}
-\begin{gather}
-\int\.{q}(x,s)v -\int\Delta q(x,s)v-\int\omega(x,s)q(x,s)v = 0
-\end{gather}
-\begin{gather}
-\int\.{q}(x,s)v -\nabla q(x,s) v|_{\partial \Omega}+\int \nabla q(x,s)\nabla v-\int\omega(x,s)q(x,s)v = 0
-\end{gather}
+\begin{equation}
+ \text{\.{q}(x,s)} -\Delta q(x,s)-\omega(x,s)q(x,s)=0
+\end{equation}
+\begin{equation}
+\int\text{\.{q}(x,s)}v -\int\Delta q(x,s)v-\int\omega(x,s)q(x,s)v = 0
+\end{equation}
+\begin{equation}
+\int\text{\.{q}}(x,s)v -\nabla q(x,s) v|_{\partial \Omega}+\int \nabla q(x,s)\nabla v-\int\omega(x,s)q(x,s)v = 0
+\end{equation}
+边界处理(这里给出周期边界条件):\\
+求解传播子方程的时候用虚单元方法可以写成$Ax=b$的形式，这里我们给出的网格(空间剖分$N=3$)如下:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=8cm]{wangge.png}
+	\caption{}  		
+\end{figure}
+我们在处理边界条件的时候，需要令右边边界的值等于左边边界的值，上边界的值等于下边界的值，且四个顶点的值相等。\\
+
+在这里我们令$x1$为去掉上边界和右边界点的值，$x$为网格上所有点的值，则$x1$和$x$有对应关系,即存在一个稀疏矩阵$C$,使得$x=Cx1$,且\\
+$$
+C=\left[\begin{matrix}
+	1&0&0&0&0&0&0&0&0&0 \\
+	0&1&0&0&0&0&0&0&0&0  \\
+	1&0&0&0&0&0&0&0&0&0  \\
+	0&0&1&0&0&0&0&0&0&0    \\
+	0&0&0&1&0&0&0&0&0&0   \\
+	0&0&1&0&0&0&0&0&0&0   \\
+	1&0&0&0&0&0&0&0&0&0  \\
+	0&1&0&0&0&0&0&0&0&0  \\
+	1&0&0&0&0&0&0&0&0&0 \\
+\end{matrix}\right]
+$$ 
+
+故$Ax=b$可写作：\\
+$$C^TACx_1 = C^Tb$$\\
+
+故我们可求出$x1$,再由$x=Cx1$得到满足周期边界的$x$。
 
 
 
 
-  
-  
-  
-  
-  
-  
+
+
     \section{VEM的收敛}
     以谱方法求取的数值解为真解，研究虚单元方法求得的数值解的收敛情况\\
     
@@ -595,9 +619,9 @@
     1.给出初值$\omega_-(x)$.\\
     
     2.求解$q(x,s)$和$q^+(x,s)$\\
-     \begin{gather}
+     \begin{equation}
     \frac{\partial}{\partial s}q(x,s)=\Delta q(x,s)-\omega(x,s)q(x,s)  :=\mathcal{L}_1(q)+ \mathcal{L}_2(q) 
-    \end{gather}
+    \end{equation}
     \textbf{step1}:(半步，即时间$s=\dfrac{\tau}{2}$)$\tau$为时间步长.\\
     
     求解$$\frac{\partial}{\partial s}q(x,s)=\Delta q(x,s):=\mathcal{L}_1(q)$$\\
@@ -662,10 +686,10 @@
      
      4.更新场函数\\
      
-     \begin{gather}    
+     \begin{equation}    
      \frac{\partial}{\partial s}\omega_+(x,s)=\frac{\delta H[\omega_+,\omega_-]}{\delta \omega_+(x,s)}=\phi _A(x)+\phi _B(x)-1\\
      \frac{\partial}{\partial s}\omega_-(x,s)=-\frac{\delta H[\omega_+,\omega_-]}{\delta \omega_-(x,s)}=\phi _A(x)-\phi _B(x)-\frac{2\omega_-(x,s)}{\chi N} 
-     \end{gather}
+     \end{equation}
      用向前欧拉迭代:\\
      
      $$\frac{\partial}{\partial s}\omega_+(x,s^n)=\dfrac{\omega_+(x,s^{n+1})-\omega_+(x,s^{n})}{\Delta s}$$
